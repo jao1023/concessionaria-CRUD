@@ -1,3 +1,16 @@
+<?php
+// Inicia a sessão para acessar as variáveis de sessão.
+session_start();
+
+// Esta verificação garante que a página só pode ser acessada por usuários logados.
+// Se a variável de sessão 'user_id' não estiver definida, o usuário é redirecionado para a página de login.
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+require_once 'conn.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -48,14 +61,12 @@
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <i class="bi bi-person-circle"></i> User name
+          <i class="bi bi-person-circle"></i>
+          <?php echo isset($_SESSION['primeiro_nome']) ? htmlspecialchars($_SESSION['primeiro_nome']) : 'Usuário'; ?>
         </button>
         <ul class="dropdown-menu">
           <li>
-            <a class="dropdown-item" href="#"><i class="bi bi-gear-fill"></i> Settings</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </li>
         </ul>
       </div>
@@ -97,29 +108,26 @@
       </thead>
       <tbody>
         <?php
-        require_once 'conn.php';
-
         $query = "SELECT id, modelo,ano, marca,placa,descricao, created_at FROM veiculos";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
               echo "
-
-         <tr>
+          <tr>
           <td>{$row['id']}</td>
-                        <td>{$row['modelo']}</td>
-                        <td>{$row['ano']}</td>
-                        <td>{$row['marca']}</td>
-                        <td>{$row['placa']}</td>
-                        <td>{$row['descricao']}</td>
-                        <td>{$row['created_at']}</td>
-                        <td>
-                            <a class='btn btn-primary' href='edit.php?id={$row['id']}'>Editar</a>
-                            <a class='btn btn-danger' href='delete.php?id={$row['id']}'>Deletar</a>
-                        </td>
-                    </tr>
-                    ";
+                          <td>{$row['modelo']}</td>
+                          <td>{$row['ano']}</td>
+                          <td>{$row['marca']}</td>
+                          <td>{$row['placa']}</td>
+                          <td>{$row['descricao']}</td>
+                          <td>{$row['created_at']}</td>
+                          <td>
+                              <a class='btn btn-primary' href='edit.php?id={$row['id']}'>Editar</a>
+                              <a class='btn btn-danger' href='delete.php?id={$row['id']}'>Deletar</a>
+                          </td>
+                      </tr>
+                      ";
           }
         } else {
           echo "<tr><td colspan ='5'> Nenhuma tarefa encontrada!</td></tr>";
