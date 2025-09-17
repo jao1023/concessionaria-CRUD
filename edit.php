@@ -4,7 +4,6 @@ $username = "root";
 $password = "root";
 $database = "concessionaria";
 
-//Criação da conexão
 $connection = new mysqli($servername, $username, $password, $database);
 
 $modelo = "";
@@ -23,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     $id = intval($_GET["id"]);
 
-    // LER A LINHA DO VEÍCULO SELECIONADO
     $sql = "SELECT * FROM veiculos WHERE id = $id";
     $result = $connection->query($sql);
     $row = $result->fetch_assoc();
@@ -39,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $placa = $row["placa"];
     $descricao = $row["descricao"];
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Aqui precisa do id para atualizar
     if (!isset($_GET["id"])) {
         header("location:index.php");
         exit;
@@ -69,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             break;
         }
 
-        // Atualizar os dados na tabela veiculos
         $sql = "UPDATE veiculos SET 
                     modelo = '$modelo', 
                     ano = '$ano', 
@@ -125,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             </div>
         <?php endif; ?>
 
-        <form method="post" action="edit.php?id=<?= $id ?>"> <!-- <--- FORM ABERTO AQUI -->
+        <form method="post" action="edit.php?id=<?= $id ?>"> 
 
             <div class="input-group mb-3">
                 <span class="input-group-text w-25">Modelo</span>
@@ -184,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 <button type="submit" class="btn btn-success">Adicionar</button>
                 <a href="index.php" class="btn btn-danger">Cancelar</a>
             </div>
-        </form> <!-- <--- FORM FECHADO AQUI -->
+        </form> 
     </div>
 
     <script

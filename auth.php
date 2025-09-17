@@ -9,7 +9,6 @@ try {
         $password = isset($_POST['password']) ? $_POST['password'] : null;
 
         if ($email && $password) {
-            // Adicione a coluna 'primeiro_nome' na consulta SELECT
             $sql = "SELECT id, email, password, primeiro_nome FROM vendedores WHERE email = ?";
             $stmt = $conn->prepare($sql);
 
@@ -24,7 +23,6 @@ try {
                         session_start();
                         $_SESSION['user_id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
-                        // Salve o nome do usuário na sessão
                         $_SESSION['primeiro_nome'] = $user['primeiro_nome']; 
                         $_SESSION['message'] = "Bem vindo!";
                         $_SESSION['message_type'] = "primary";

@@ -24,25 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $descricao = $_POST["descricao"];
 
     do {
-        // Corrigido aqui para validar os campos certos:
         if (empty($modelo) || empty($ano) || empty($marca) || empty($placa) || empty($descricao)) {
             $errorMessage = "Todos os campos precisam estar preenchidos";
             break;
         }
 
-        // Adicionada a validação para o tamanho da placa
+
         if (strlen($placa) !== 8) {
             $errorMessage = "A placa deve ter exatamente 7 caracteres.";
             break;
         }
 
-        // Corrigido a lógica de validação do ano
         if ($ano < 1886 || $ano > date('Y')) {
             $errorMessage = "Ano inserido invalido";
             break;
         }
 
-        // Adicionada verificação para placa duplicada
         $sqlCheck = "SELECT placa FROM veiculos WHERE placa = ?";
         $stmtCheck = $connection->prepare($sqlCheck);
         $stmtCheck->bind_param("s", $placa);
@@ -56,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $stmtCheck->close();
 
-        // Corrigido vírgula extra na lista de colunas no SQL:
         $sql = "INSERT INTO veiculos (modelo, ano, marca, placa, descricao) 
                 VALUES (?, ?, ?, ?, ?)";
         $stmtInsert = $connection->prepare($sql);

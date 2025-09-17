@@ -1,9 +1,6 @@
 <?php
-// Inicia a sessão para acessar as variáveis de sessão.
 session_start();
 
-// Esta verificação garante que a página só pode ser acessada por usuários logados.
-// Se a variável de sessão 'user_id' não estiver definida, o usuário é redirecionado para a página de login.
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -11,39 +8,31 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once 'conn.php';
 
-// Inicializa a variável de busca
 $search_query = '';
 
-// Verifica se há um termo de busca na URL
 if (isset($_GET['search_query'])) {
     $search_query = htmlspecialchars($_GET['search_query']);
 }
 
-// Constrói a query SQL base
 $query = "SELECT id, modelo, ano, marca, placa, descricao, created_at FROM veiculos";
 
-// Se um termo de busca foi fornecido, adiciona a cláusula WHERE
 if (!empty($search_query)) {
     $query .= " WHERE modelo LIKE ? OR marca LIKE ? OR placa LIKE ? OR descricao LIKE ?";
 }
 
-// Prepara a declaração para evitar injeção de SQL
 $stmt = $conn->prepare($query);
 
 if ($stmt === false) {
     die("Erro na preparação da declaração: " . $conn->error);
 }
 
-// Se a busca estiver ativa, vincula os parâmetros
 if (!empty($search_query)) {
     $search_param = '%' . $search_query . '%';
     $stmt->bind_param("ssss", $search_param, $search_param, $search_param, $search_param);
 }
 
-// Executa a declaração
 $stmt->execute();
 
-// Obtém o resultado
 $result = $stmt->get_result();
 
 ?>
@@ -61,7 +50,7 @@ $result = $stmt->get_result();
 </head>
 
 <body>
-    <!-- Navbar principal -->
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
