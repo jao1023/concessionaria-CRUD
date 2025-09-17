@@ -29,6 +29,15 @@
             <div class="col-12">
                 <div class="register-container">
                     <h2 class="text-center mb-4">Criar uma conta</h2>
+                    <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+                    <?php if (isset($_SESSION['message'])): ?>
+                        <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show" role="alert">
+                            <?php echo $_SESSION['message']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                        </div>
+                        <?php unset($_SESSION['message'], $_SESSION['message_type']); ?>
+                    <?php endif; ?>
+
                     <form method="POST" action="register_back.php">
                         <div class="mb-3">
                             <label for="primeiro_nome" class="form-label">Primeiro Nome</label>

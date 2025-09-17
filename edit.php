@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $marca = $row["marca"];
     $placa = $row["placa"];
     $descricao = $row["descricao"];
-
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Aqui precisa do id para atualizar
     if (!isset($_GET["id"])) {
@@ -57,6 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     do {
         if (empty($modelo) || empty($ano) || empty($marca) || empty($placa) || empty($descricao)) {
             $errorMessage = "Todos os campos são obrigatórios";
+            break;
+        }
+
+        if (strlen($placa) !== 8) {
+            $errorMessage = "A placa é invalida";
+            break;
+        }
+
+        if ($ano < 1886 || $ano > date('Y')) {
+            $errorMessage = "Ano inserido invalido";
             break;
         }
 
@@ -80,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         header("location: index.php");
         exit;
-
     } while (false);
 }
 
@@ -168,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 <textarea
                     name="descricao"
                     class="form-control"
-                    placeholder="Turbina GARRET HX40, Fueltech FT450, Pistão Forjado, Cambio Forjado etc..."
+                    placeholder="Motor 4.1, 48.000KM rodados etc...""
                     required><?= htmlspecialchars($descricao) ?></textarea>
             </div>
 

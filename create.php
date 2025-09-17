@@ -30,16 +30,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         }
 
-        // Corrigido vírgula extra na lista de colunas no SQL:
-        $sql = "INSERT INTO veiculos (modelo, ano, marca, placa, descricao) 
-                VALUES ('$modelo', '$ano', '$marca', '$placa', '$descricao')";
-
-        $result = $connection->query($sql);
-
-        if (!$result) {
-            $errorMessage = "Erro ao inserir dados: " . $connection->error;
+        // Adicionada a validação para o tamanho da placa
+        if (strlen($placa) !== 8) {
+            $errorMessage = "A placa deve ter exatamente 7 caracteres.";
             break;
         }
+
+        // Corrigido a lógica de validação do ano
+        if ($ano < 1886 || $ano > date('Y')) {
+            $errorMessage = "Ano inserido invalido";
+            break;
+        }
+
+        // Adicionada verificação para placa duplicada
+        $sqlCheck = "SELECT placa FROM veiculos WHERE placa = ?";
+        $stmtCheck = $connection->prepare($sqlCheck);
+        $stmtCheck->bind_param("s", $placa);
+        $stmtCheck->execute();
+        $stmtCheck->store_result();
+        
+        if ($stmtCheck->num_rows > 0) {
+            $errorMessage = "Esta placa já está cadastrada.";
+            $stmtCheck->close();
+            break;
+        }
+        $stmtCheck->close();
+
+        // Corrigido vírgula extra na lista de colunas no SQL:
+        $sql = "INSERT INTO veiculos (modelo, ano, marca, placa, descricao) 
+                VALUES (?, ?, ?, ?, ?)";
+        $stmtInsert = $connection->prepare($sql);
+        $stmtInsert->bind_param("sisss", $modelo, $ano, $marca, $placa, $descricao);
+        
+        $result = $stmtInsert->execute();
+
+        if (!$result) {
+            $errorMessage = "Erro ao inserir dados: " . $stmtInsert->error;
+            $stmtInsert->close();
+            break;
+        }
+        $stmtInsert->close();
 
         $modelo = "";
         $ano = "";
@@ -48,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $descricao = "";
 
         $successMessage = "Veículo adicionado com sucesso!";
-        header("Location: index.php"); // redireciona para evitar reenvio
+        header("Location: index.php?status=success"); // <--- MUDANÇA AQUI
         exit;
     } while (false);
 }
@@ -138,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <textarea
             name="descricao"
             class="form-control"
-            placeholder="Turbina GARRET HX40, Fueltech FT450, Pistão Forjado, Cambio Forjado etc..."
+            placeholder="Motor 4.1, 48.000KM rodados etc..."
             required
           ><?= htmlspecialchars($descricao) ?></textarea>
         </div>
