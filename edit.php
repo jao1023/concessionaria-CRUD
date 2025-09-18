@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             </div>
         <?php endif; ?>
 
-        <form method="post" action="edit.php?id=<?= $id ?>"> 
+        <form method="post" action="edit.php?id=<?= $id ?>">
 
             <div class="input-group mb-3">
                 <span class="input-group-text w-25">Modelo</span>
@@ -176,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     required><?= htmlspecialchars($descricao) ?></textarea>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class=" d-flex gap-2">
                 <button type="submit" class="btn btn-success">Adicionar</button>
                 <a href="index.php" class="btn btn-danger">Cancelar</a>
             </div>

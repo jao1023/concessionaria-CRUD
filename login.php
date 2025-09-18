@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
         body {
             background-color: #f8f9fa;
         }
+
         .login-container {
             max-width: 400px;
             margin: 50px auto;
@@ -19,6 +21,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -37,7 +40,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mb-3">Entrar</button>
                     </form>
-                    
+
                     <div class="text-center mt-3">
                         Não tem uma conta? <a href="register.php">Cadastre-se</a>
                     </div>
@@ -48,4 +51,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>

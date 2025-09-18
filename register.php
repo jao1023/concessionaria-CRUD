@@ -66,9 +66,9 @@
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                            <label class="form-check-label" for="termsCheck">Eu concordo com os <a href="#">termos de serviço</a></label>
+                            <label class="form-check-label" for="termsCheck">Eu concordo com os <a href="termos.php">termos de serviço</a></label>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Cadastrar</button>
+                        <button type="submit"  class="btn btn-primary w-100 mb-3">Cadastrar</button>
                     </form>
 
                     <div class="text-center mt-3">

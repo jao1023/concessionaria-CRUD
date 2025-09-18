@@ -1,5 +1,5 @@
-<?php 
-if(isset($_GET["id"])){
+<?php
+if (isset($_GET["id"])) {
 
     $id = $_GET["id"];
     $severname = "localhost";
@@ -13,9 +13,8 @@ if(isset($_GET["id"])){
 
     $sql = "DELETE FROM veiculos WHERE id=$id";
 
-    $connection ->query($sql);
+    $connection->query($sql);
 
     header("location: index.php");
     exit;
 }
-?>

@@ -23,7 +23,7 @@ try {
                         session_start();
                         $_SESSION['user_id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
-                        $_SESSION['primeiro_nome'] = $user['primeiro_nome']; 
+                        $_SESSION['primeiro_nome'] = $user['primeiro_nome'];
                         $_SESSION['message'] = "Bem vindo!";
                         $_SESSION['message_type'] = "primary";
                         header("Location: index.php");
